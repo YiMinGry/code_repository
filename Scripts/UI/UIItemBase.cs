@@ -19,4 +19,11 @@ public class UIItemBase : MonoBehaviour
         countText.text = "x" + gameItemData.itemCount;
         gameObject.SetActive(true);
     }
+    public void Set(GameItem gameItem)
+    {
+        icon.sprite = gameItem.icon;
+        contentText.text = gameItem.itemName;
+        countText.text = "";
+        gameObject.SetActive(true);
+    }
 }

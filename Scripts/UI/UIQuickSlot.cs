@@ -9,4 +9,14 @@ public class UIQuickSlot : UIBase
     {
         Main.Instance.player.ToolFunction(ActionType.Guitar);
     }
+
+    public void OnClickSkin()
+    {
+        if (UIHelper.Instance.IsUIActive(UIType.UIQuickSlot))
+        {
+            UIHelper.Instance.CloseUI(UIType.UIQuickSlot);
+        }
+
+        UIHelper.Instance.OpenUI(UIType.UISkin);
+    }
 }

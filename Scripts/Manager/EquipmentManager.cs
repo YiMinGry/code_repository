@@ -89,6 +89,8 @@ public class EquipmentManager : Singleton<EquipmentManager>
     {
         foreach (var data in saveData.dataList)
         {
+
+
             if (data.item != null)
             {
                 if (string.IsNullOrEmpty(data.item.itemName))
@@ -96,12 +98,24 @@ public class EquipmentManager : Singleton<EquipmentManager>
                     continue;
                 }
 
-                EquipItem(data.slotType, data.item.itemName);
+                if (data.slotType == EquipmentType.Skin)
+                {
+                    Material material = ItemDatabase.Instance.GetMaterial(data.item.itemName);
+                    Main.Instance.player.SetMaterialSkin(material);
+                }
+                else if (data.slotType == EquipmentType.Emot)
+                {
+                    Material material = ItemDatabase.Instance.GetMaterial(data.item.itemName);
+                    Main.Instance.player.SetMaterialEmot(material);
+                }
+
+                EquipItem(data.slotType, "Skin/" + data.item.itemName);
             }
             else
             {
                 UnequipItem(data.slotType);
             }
+
         }
     }
 }

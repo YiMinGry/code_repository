@@ -82,6 +82,17 @@ public class PlayerInputManager : MonoBehaviour
         EventManager.Invoke("InputTab");
     }
 
+    public void OnAction_L(InputValue value)
+    {
+        Debug.Log("OnAction_L");
+        EventManager.Invoke("Action_L");
+    }
+    public void OnAction_R(InputValue value)
+    {
+        Debug.Log("OnAction_R");
+        EventManager.Invoke("Action_R");
+    }
+
     #region guitarmode
     public void OnGuitarC(InputValue value)
     {

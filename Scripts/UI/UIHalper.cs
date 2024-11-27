@@ -13,6 +13,7 @@ public enum UIType
     UIMenu,
     UIQuickSlot,
     UIGuitar,
+    UISkin,
     UIVideoPlayer
 }
 public class UIHelper : Singleton<UIHelper>

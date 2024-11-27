@@ -22,7 +22,10 @@ public class EquipmentSlot : MonoBehaviour
         return true;
     }
 
-
+    public bool isEquip()
+    {
+        return equippedItem != null;
+    }
     public void Unequip()
     {
         if (equippedItem == null)

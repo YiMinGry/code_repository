@@ -74,4 +74,37 @@ public class ItemDatabase : Singleton<ItemDatabase>
         GameObject item = GameObject.Instantiate(LoadItemByObject(itemName), parent);
         return item.GetComponent<GameItem>();
     }
+
+    public List<GameItem> LoadAllSkins()
+    {
+        List<GameItem> skinItems = new List<GameItem>();
+
+        GameObject[] skinObjects = Resources.LoadAll<GameObject>("Prefabs/Items/Skin");
+        foreach (GameObject obj in skinObjects)
+        {
+            GameItem gameItem = obj.GetComponent<GameItem>();
+            if (gameItem != null)
+            {
+                skinItems.Add(gameItem);
+            }
+            else
+            {
+                Debug.LogWarning($"GameItem component not found on object '{obj.name}'.");
+            }
+        }
+
+        return skinItems;
+    }
+
+    public Material GetMaterial(string itemName)
+    {
+        Material material = Resources.Load<Material>($"Material/{itemName}");
+        if (material == null)
+        {
+            Debug.LogWarning($"Material '{itemName}' not found in Resources.");
+            material = Resources.Load<Material>($"Material/Chibi_Cat_00");
+        }
+
+        return material;
+    }
 }

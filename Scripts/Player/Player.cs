@@ -1,12 +1,18 @@
+using System;
+using System.Collections;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 public enum EquipmentType
 {
+    Skin,
+    Emot,
     Head,
     Body,
     HandL,
     HandR,
-    objectRooting
+    objectRooting,
+    None
 }
 
 public enum ActionMap
@@ -58,6 +64,8 @@ public class Player : MonoBehaviour
 
     GameObject detectFx;
 
+    bool isActionAinPlay = false;
+
     private void Awake()
     {
         _controller = GetComponent<PlayerController>();
@@ -70,7 +78,8 @@ public class Player : MonoBehaviour
         EventManager.Regist("InputInven", InputInven);
         EventManager.Regist("InputMenu", InputMenu);
         EventManager.Regist("InputTab", InputTab);
-
+        EventManager.Regist("Action_R", Action_R);
+        EventManager.Regist("Action_L", Action_L);
     }
 
     private void Update()
@@ -94,7 +103,7 @@ public class Player : MonoBehaviour
                     if (_controller.IsUnderwater)
                     {
                         UIHelper.Instance.uIAction.DeActive();
-                        
+
                         if (detectFx != null)
                         {
                             detectFx.SetActive(false);
@@ -255,8 +264,61 @@ public class Player : MonoBehaviour
         }
     }
 
+    private void Action_L()
+    {
+        if (aniEvent.IsActionAniPlay || aniEvent.IsEventAniPlay)
+        {
+            return;
+        }
+
+        int actionIdx = 0;
+
+        if (EquipmentManager.Instance.FindSlot(EquipmentType.HandL).equippedItem != null)
+        {
+            actionIdx = (int)EquipmentManager.Instance.FindSlot(EquipmentType.HandL).equippedItem.actionType;
+        }
+
+        _controller.animator.SetInteger("Action_L", actionIdx);
+        _controller.animator.SetTrigger("InputClickL");
+    }
+
+    private void Action_R()
+    {
+        if (aniEvent.IsActionAniPlay || aniEvent.IsEventAniPlay)
+        {
+            return;
+        }
+
+        int actionIdx = 0;
+
+        if (EquipmentManager.Instance.FindSlot(EquipmentType.HandR).equippedItem != null)
+        {
+            actionIdx = (int)EquipmentManager.Instance.FindSlot(EquipmentType.HandR).equippedItem.actionType;
+        }
+
+        _controller.animator.SetInteger("Action_R", actionIdx);
+        _controller.animator.SetTrigger("InputClickR");
+    }
+
     public void SwitchActionMap(ActionMap actionMap)
     {
         Main.Instance.player.controller.playerInput.SwitchCurrentActionMap(actionMap.ToString());
+    }
+
+    public void SetMaterialSkin(Material mat)
+    {
+        var rend = transform.Find("Chibi_Cat").GetComponent<SkinnedMeshRenderer>();
+
+        Material[] mats = rend.materials;
+        mats[0] = mat;
+        rend.materials = mats;
+    }
+
+    public void SetMaterialEmot(Material mat)
+    {
+        var rend = transform.Find("Chibi_Cat").GetComponent<SkinnedMeshRenderer>();
+        Material[] mats = rend.materials;
+        mats[1] = mat;
+        rend.materials = mats;
     }
 }

@@ -11,6 +11,15 @@ public class PlayerAniEvent : MonoBehaviour
         }
     }
 
+    private bool _isActionAniPlay = false;
+    public bool IsActionAniPlay
+    {
+        get
+        {
+            return _isActionAniPlay;
+        }
+    }
+
     public void OnEventAniPlay()
     {
         _isEventAniPlay = true;
@@ -19,7 +28,14 @@ public class PlayerAniEvent : MonoBehaviour
     {
         _isEventAniPlay = false;
     }
-
+    public void OnActionAniPlay()
+    {
+        _isActionAniPlay = true;
+    }
+    public void OnActionAniEnd()
+    {
+        _isActionAniPlay = false;
+    }
     public void OnFootStep()
     {
         SoundManager.Instance.Play(SoundManager.footstep + Random.Range(0, 10), SoundType.Effect);
